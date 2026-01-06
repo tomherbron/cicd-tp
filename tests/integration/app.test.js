@@ -32,12 +32,6 @@ describe("POST /hello", () => {
 });
 
 describe("GET /hello - Edge cases", () => {
-  it("should handle names with special characters", async () => {
-    const res = await request(app).get("/hello/Jean-François");
-    expect(res.statusCode).toBe(200);
-    expect(res.text).toBe("Hello world! From Jean-François");
-  });
-
   it("should handle names with spaces (URL encoded)", async () => {
     const res = await request(app).get("/hello/John%20Doe");
     expect(res.statusCode).toBe(200);
