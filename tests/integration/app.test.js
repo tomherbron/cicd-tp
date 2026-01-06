@@ -30,3 +30,56 @@ describe("POST /hello", () => {
     expect(res.text).toBe("Hello world! From Bob");
   });
 });
+
+describe("GET /hello - Edge cases", () => {
+  it("should handle names with special characters", async () => {
+    const res = await request(app).get("/hello/Jean-François");
+    expect(res.statusCode).toBe(200);
+    expect(res.text).toBe("Hello world! From Jean-François");
+  });
+
+  it("should handle names with spaces (URL encoded)", async () => {
+    const res = await request(app).get("/hello/John%20Doe");
+    expect(res.statusCode).toBe(200);
+    expect(res.text).toBe("Hello world! From John Doe");
+  });
+
+  it("should handle empty string as name", async () => {
+    const res = await request(app).get("/hello/");
+    expect(res.statusCode).toBe(200);
+    expect(res.text).toBe("Hello world!");
+  });
+
+  it("should handle very long names", async () => {
+    const longName = "A".repeat(1000);
+    const res = await request(app).get(`/hello/${longName}`);
+    expect(res.statusCode).toBe(200);
+    expect(res.text).toBe(`Hello world! From ${longName}`);
+  });
+});
+
+describe("POST /hello - Edge cases", () => {
+  it("should handle empty string in x-name header", async () => {
+    const res = await request(app)
+      .post("/hello")
+      .set("x-name", "");
+    expect(res.statusCode).toBe(200);
+    expect(res.text).toBe("Hello world!");
+  });
+
+  it("should handle special characters in x-name header", async () => {
+    const res = await request(app)
+      .post("/hello")
+      .set("x-name", "Marie-José");
+    expect(res.statusCode).toBe(200);
+    expect(res.text).toBe("Hello world! From Marie-José");
+  });
+
+  it("should handle case-insensitive header names", async () => {
+    const res = await request(app)
+      .post("/hello")
+      .set("X-Name", "Charlie");
+    expect(res.statusCode).toBe(200);
+    expect(res.text).toBe("Hello world! From Charlie");
+  });
+});

@@ -1,24 +1,24 @@
 const { getGreeting } = require("../../src/greeting");
 
 describe("getGreeting", () => {
-  it("retourne le message de base sans nom", () => {
-    expect(getGreeting()).toBe("Hey there!");
+  it("returns base message without name", () => {
+    expect(getGreeting()).toBe("Hello world!");
   });
 
-  it("retourne le message avec le nom fourni", () => {
+  it("returns base message with provided name", () => {
     const name = "Alice";
-    expect(getGreeting(name)).toBe("Hey there! from Alice");
+    expect(getGreeting(name)).toBe("Hello world! From Alice");
   });
 
-  it("retourne le message avec un nom vide", () => {
-    expect(getGreeting("")).toBe("Hey there!");
+  it("returns base message if provided name is empty", () => {
+    expect(getGreeting("")).toBe("Hello world!");
   });
 
-  it("retourne le message avec un nom null", () => {
-    expect(getGreeting(null)).toBe("Hey there!");
+  it("returns base message if provided name is null", () => {
+    expect(getGreeting(null)).toBe("Hello world!");
   });
 
-  it("retourne le message avec un nom undefined", () => {
-    expect(getGreeting(undefined)).toBe("Hey there!");
+  it("returns base message if provided name is undefined", () => {
+    expect(getGreeting(undefined)).toBe("Hello world!");
   });
 });
